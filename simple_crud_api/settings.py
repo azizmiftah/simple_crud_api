@@ -102,12 +102,24 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'crudapp',
+#         'USER': 'root',
+#         'PASSWORD': 's@rutobi',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     },
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sca',
-        'USER': 'root',
-        'PASSWORD': 's@rutobi',
+        'NAME': 'crudapp',
+        'USER': 'edwinOnly',
+        'PASSWORD': 'domybest.300811',
         'HOST': 'localhost',
         'PORT': '',
     },
