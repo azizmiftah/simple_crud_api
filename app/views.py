@@ -68,7 +68,7 @@ class ObtainTokenView(APIView):
 		if errors:
 			return Response({"res":0, 'Message':'Wrong authentication.', 'detail':errors}, 400)
 
-		user = SysUser.objects.filter(email=request.data['email']).first()
+		user = User.objects.filter(email=request.data['email']).first()
 		if not user:
 			return Response({"res":0, 'Message':"User Doesn't exist."}, 400)
 
