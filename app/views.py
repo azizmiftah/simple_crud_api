@@ -61,8 +61,8 @@ class RegisterView(APIView):
 		serial = UserSerial(data=request.data)
 		if serial.is_valid():
 			code = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits + '!@#$()&?><{}[]') for _ in range(30))
-			serial.save(activate_code=code)
 			send_mail(to=[serial.data['email']], title='Simple CRUD Account Info', body='click this activation link: ' + "http://localhost/user/activate/" + code)
+			serial.save(activate_code=code)
 			return Response({"result":serial.data,"message":"OK"})
 		return Response({"result":None,"detail":serial.errors}, 400)
 
