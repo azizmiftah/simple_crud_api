@@ -32,7 +32,7 @@ class TokenPermission(permissions.BasePermission):
 			try:
 				token = str(auth)
 				payload = jwt.decode(token, settings.SECRET_KEY)
-				user = User.objects.filter(id=payload['id'], username__iexact=payload['username']).first()
+				user = User.objects.filter(id=payload['id'], email__iexact=payload['email']).first()
 				return user is not None
 			except jwt.ExpiredSignature:
 				msg = ('Signature has expired.')
