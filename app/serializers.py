@@ -11,4 +11,4 @@ class UserSerial(serializers.ModelSerializer):
 class ParamObtainToken(serializers.ModelSerializer):
 	class Meta:
 		model = User
-		exclude = ('name', 'activate_code')
+		exclude = ('name', 'activate_code', 'id')
