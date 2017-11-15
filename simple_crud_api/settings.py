@@ -25,7 +25,7 @@ SECRET_KEY = 'gy#jekv58)j1-)$8@-2miuv-_n)h_(cede-p88v+=y2=n7yptu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app',
+    'rest_framework',
+    'rest_framework_docs',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -69,15 +73,44 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'simple_crud_api.wsgi.application'
 
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'info@node8.net'
+# #Must generate specific password for your app in [gmail settings][1]
+# EMAIL_HOST_PASSWORD = 'trqmlckyrvvaqzpr'
+# EMAIL_PORT = 587
+# #This did the trick
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'miftahulaziz92@gmail.com'
+EMAIL_HOST_PASSWORD = 'sangkubutut'
+EMAIL_PORT = 587
+# EMAIL_PORT = 465
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sca',
+        'USER': 'root',
+        'PASSWORD': 's@rutobi',
+        'HOST': 'localhost',
+        'PORT': '',
+    },
 }
 
 
