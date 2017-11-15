@@ -58,24 +58,24 @@ class ObtainTokenView(APIView):
 	serializer_class=ParamObtainToken
 	
 	def post(self, request):
-		username = request.data.get("username")
+		email = request.data.get("email")
 		password = request.data.get("password")
 		errors = {}
-		if not username:
-			errors["username"] = ["This field is required"]
+		if not email:
+			errors["email"] = ["This field is required"]
 		if not password:
 			errors["password"] = ["This field is required"]
 		if errors:
 			return Response({"res":0, 'Message':'Wrong authentication.', 'detail':errors}, 400)
 
-		user = SysUser.objects.filter(username=request.data['username']).first()
+		user = SysUser.objects.filter(email=request.data['email']).first()
 		if not user:
 			return Response({"res":0, 'Message':"User Doesn't exist."}, 400)
 
 		if not check_password(password=password, encoded=user.password):
 			return Response({'res':0,'Message':'Wrong authentication.'}, 400)
 
-		payload = {'id':user.id, 'username':user.username}
+		payload = {'id':user.id, 'email':user.email}
 		token = jwt.encode(payload, settings.SECRET_KEY)
 		return Response({"res":1,"message":"OK","token":token})
 
@@ -88,7 +88,7 @@ class RegisterView(APIView):
 		if serial.is_valid():
 			code = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits + '!@#$()&?><{}[]') for _ in range(30))
 			send_mail(to=[serial.validated_data['email']], title='Simple CRUD Account Info', body='click this activation link: ' + "http://localhost/user/activate/" + code)
-			serial.save(activate_code=code)
+			serial.save(activate_code=code, password=make_password(password=request.data['password'], salt=None))
 			return Response({"result":serial.data,"message":"OK"})
 		return Response({"result":None,"detail":serial.errors}, 400)
 
