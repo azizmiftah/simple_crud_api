@@ -7,3 +7,8 @@ class UserSerial(serializers.ModelSerializer):
 		# exclude = ('password',)
 		depth = 1
 		fields = '__all__'
+
+class ParamObtainToken(serializers.ModelSerializer):
+	class Meta:
+		model = User
+		exclude = ('name', 'activate_code')

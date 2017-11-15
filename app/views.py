@@ -53,6 +53,32 @@ def send_mail(to=[], title='', body=''):
 	email = EmailMessage(title, body, to=to)
 	return email.send()
 
+class ObtainTokenView(APIView):
+
+	serializer_class=ParamObtainToken
+	
+	def post(self, request):
+		username = request.data.get("username")
+		password = request.data.get("password")
+		errors = {}
+		if not username:
+			errors["username"] = ["This field is required"]
+		if not password:
+			errors["password"] = ["This field is required"]
+		if errors:
+			return Response({"res":0, 'Message':'Wrong authentication.', 'detail':errors}, 400)
+
+		user = SysUser.objects.filter(username=request.data['username']).first()
+		if not user:
+			return Response({"res":0, 'Message':"User Doesn't exist."}, 400)
+
+		if not check_password(password=password, encoded=user.password):
+			return Response({'res':0,'Message':'Wrong authentication.'}, 400)
+
+		payload = {'id':user.id, 'username':user.username}
+		token = jwt.encode(payload, settings.SECRET_KEY)
+		return Response({"res":1,"message":"OK","token":token})
+
 class RegisterView(APIView):
 
 	serializer_class = UserSerial
