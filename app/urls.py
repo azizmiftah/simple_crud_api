@@ -22,5 +22,7 @@ urlpatterns = [
     url(r'^register/$', RegisterView.as_view()),
     url(r'^user/(?P<id>[0-9]+)/$', UserView.as_view()),
     url(r'^user/$', UserView.as_view()),
+    url(r'^article/(?P<id>[0-9]+)/$', ArticleView.as_view()),
+    url(r'^article/$',ArticleView.as_view()),
     url(r'^activate/$', ActivateView.as_view()),
 ]
