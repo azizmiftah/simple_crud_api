@@ -21,8 +21,12 @@ class User(models.Model):
 	password = models.CharField(validators=[password_validator], max_length=500, blank=False, null=False)
 	activate_code = models.CharField(max_length=50, blank=True, null=True)
 
-	# class Meta:
-	#     managed = False
+class Article(models.Model):
+	user = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True, related_name='%(class)s_user')
+	title = models.CharField(max_length=200, blank=False, null=False)
+	content = models.TextField(blank=True, null=True)
+	created_at = models.DateTimeField(blank=True, null=True)
+
 
 
 
