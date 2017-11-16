@@ -14,6 +14,15 @@ from rest_framework.response import Response
 from django.core.mail import EmailMessage
 import random, string
 
+def get_user_from_token(request):
+	try:
+		token = str(request.META['HTTP_AUTHORIZATION'])
+	except:
+		token = str(request.META['HTTP_API_KEY'])
+	payload = jwt.decode(token, settings.SECRET_KEY)
+	user = User.objects.filter(id=payload['id']).first()
+	return user
+
 class TokenPermission(permissions.BasePermission):
 	"""
 	Global permission check.
@@ -130,5 +139,39 @@ class UserView(APIView):
 	def delete(self, request, id=None):
 		if id:
 			result = User.objects.filter(id=id).delete()
+			return Response({"result":result[0],"message":"OK", "detail":None})
+		return Response({"result":None,"message":"Failed", "detail": "Method \"DELETE\" not allowed."}, 403)
+
+class ArticleView(APIView):
+
+	serializer_class = ArticleSerial
+	permission_classes = (TokenPermission,)
+
+	def get(self, request, id=None):
+		user = get_user_from_token(request)
+		if id:
+			article = Article.objects.filter(id=id, user=user)
+		else:
+			article = Article.objects.filter(user=user)
+		serial = ArticleSerial(article, many=True)
+		return Response({"result":serial.data,"message":"OK"})
+
+	def put(self, request, id=None):
+		user = get_user_from_token(request)
+		if id:
+			article = Article.objects.filter(id=id, user=user).first()
+			if not article:
+				return Response({"result":None,"message":"Nothing updated", "detail":{"id":["Does not exist"]}})
+			serial = ArticleSerial(article, data=request.data, partial=True)
+			if serial.is_valid():
+				serial.save()
+				return Response({"result":serial.data,"message":"OK"})
+			return Response({"result":None,"message":"Failed", "detail":serial.errors}, 400)
+		return Response({"result":None,"message":"Failed", "detail": "Method \"PUT\" not allowed."})
+
+	def delete(self, request, id=None):
+		user = get_user_from_token(request)
+		if id:
+			result = Article.objects.filter(id=id, user=user).delete()
 			return Response({"result":result[0],"message":"OK", "detail":None})
 		return Response({"result":None,"message":"Failed", "detail": "Method \"DELETE\" not allowed."}, 403)
