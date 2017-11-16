@@ -13,6 +13,7 @@ from rest_framework import exceptions
 from rest_framework.response import Response
 from django.core.mail import EmailMessage
 import random, string
+from datetime import datetime
 
 def get_user_from_token(request):
 	try:
@@ -155,6 +156,14 @@ class ArticleView(APIView):
 			article = Article.objects.filter(user=user)
 		serial = ArticleSerial(article, many=True)
 		return Response({"result":serial.data,"message":"OK"})
+
+	def post(self, request):
+		user = get_user_from_token(request)
+		serial = ArticleSerial(data=request.data)
+		if serial.is_valid():
+			serial.save(user=user.id, created_at=datetime.now())
+			return Response({"result":serial.data,"message":"OK"})
+		return Response({"result":None,"detail":serial.errors}, 400)
 
 	def put(self, request, id=None):
 		user = get_user_from_token(request)
