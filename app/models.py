@@ -24,7 +24,7 @@ class User(models.Model):
 class Article(models.Model):
 	user = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True, related_name='%(class)s_user')
 	title = models.CharField(max_length=200, blank=False, null=False)
-	content = models.TextField(blank=True, null=True)
+	content = models.TextField(blank=True, null=False)
 	created_at = models.DateTimeField(blank=True, null=True)
 
 

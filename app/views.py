@@ -161,7 +161,7 @@ class ArticleView(APIView):
 		user = get_user_from_token(request)
 		serial = ArticleSerial(data=request.data)
 		if serial.is_valid():
-			serial.save(user=user.id, created_at=datetime.now())
+			serial.save(user=user, created_at=datetime.now())
 			return Response({"result":serial.data,"message":"OK"})
 		return Response({"result":None,"detail":serial.errors}, 400)
 
