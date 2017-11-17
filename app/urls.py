@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^user/$', UserView.as_view()),
     url(r'^article/(?P<id>[0-9]+)/$', ArticleView.as_view()),
     url(r'^article/$',ArticleView.as_view()),
-    url(r'^activate/$', ActivateView.as_view()),
+    url(r'^activate/(?P<code>[0-9]+)/$', ActivateView.as_view()),
 ]
