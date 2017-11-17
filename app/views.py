@@ -109,10 +109,9 @@ class ActivateView(APIView):
 	def get(self, request):
 		code = request.GET.get('activation_code')
 		result = User.objects.filter(activate_code=code).update(active=True)
-		return Response({"result":str(result), "message":"User has been activated"}, 200)
-		# if result[0] == 1:
-		# 	return Response({"result":True, "message":"User has been activated"}, 200)
-		# return Response({"result":False, "message":"Activation code is invalid"}, 400)
+		if result == 1:
+			return Response({"result":True, "message":"User has been activated"}, 200)
+		return Response({"result":False, "message":"Activation code is invalid"}, 400)
 
 class UserView(APIView):
 
