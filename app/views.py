@@ -96,7 +96,7 @@ class RegisterView(APIView):
 	def post(self, request):
 		serial = UserSerial(data=request.data)
 		if serial.is_valid():
-			code = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits + '!@#$()&?><{}[]') for _ in range(30))
+			code = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(30))
 			send_mail(to=[serial.validated_data['email']], title='Simple CRUD Account Info', body='click this activation link: ' + "http://localhost/tugas_ptbig/activation.html?activation_code=" + code)
 			serial.save(activate_code=code, password=make_password(password=request.data['password'], salt=None))
 			return Response({"result":serial.data,"message":"OK"})
