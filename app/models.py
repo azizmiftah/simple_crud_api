@@ -20,6 +20,7 @@ class User(models.Model):
 	email = models.EmailField(null=False, unique=True)
 	password = models.CharField(validators=[password_validator], max_length=500, blank=False, null=False)
 	activate_code = models.CharField(max_length=50, blank=True, null=True)
+	active = models.BooleanField()
 
 class Article(models.Model):
 	user = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True, related_name='%(class)s_user')
