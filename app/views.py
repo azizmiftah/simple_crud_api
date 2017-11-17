@@ -106,7 +106,8 @@ class ActivateView(APIView):
 
 	permission_classes = (TokenPermission,)
 
-	def get(self, request, code=None):
+	def get(self, request):
+		code = request.GET.get('activation_code')
 		result = User.objects.filter(activate_code=code).update(active=True)
 		if result[0] == 1:
 			return Response({"result":True, "message":"User has been activated"}, 200)
