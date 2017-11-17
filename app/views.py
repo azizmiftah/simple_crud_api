@@ -87,7 +87,7 @@ class ObtainTokenView(APIView):
 
 		payload = {'id':user.id, 'email':user.email}
 		token = jwt.encode(payload, settings.SECRET_KEY)
-		return Response({"res":1,"message":"OK","token":token})
+		return Response({"res":1,"message":"OK","token":token, "user": UserSerial(user).data})
 
 class RegisterView(APIView):
 
