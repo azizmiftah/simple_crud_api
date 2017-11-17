@@ -43,6 +43,10 @@ class TokenPermission(permissions.BasePermission):
 				token = str(auth)
 				payload = jwt.decode(token, settings.SECRET_KEY)
 				user = User.objects.filter(id=payload['id'], email__iexact=payload['email']).first()
+				if user:
+					if not user.active:
+						msg = ('User with authentication credentials were not activated.')
+						raise exceptions.AuthenticationFailed(msg)
 				return user is not None
 			except jwt.ExpiredSignature:
 				msg = ('Signature has expired.')
@@ -81,6 +85,8 @@ class ObtainTokenView(APIView):
 		user = User.objects.filter(email=request.data['email']).first()
 		if not user:
 			return Response({"res":0, 'Message':"User Doesn't exist."}, 400)
+		elif not user.active:
+			return Response({"res":0, 'Message':"User Doesn't active."}, 400)
 
 		if not check_password(password=password, encoded=user.password):
 			return Response({'res':0,'Message':'Wrong authentication.'}, 400)
@@ -97,8 +103,8 @@ class RegisterView(APIView):
 		serial = UserSerial(data=request.data)
 		if serial.is_valid():
 			code = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(30))
-			send_mail(to=[serial.validated_data['email']], title='Simple CRUD Account Info', body='click this activation link: ' + "http://localhost/tugas_ptbig/activation.html?activation_code=" + code)
-			serial.save(activate_code=code, password=make_password(password=request.data['password'], salt=None))
+			send_mail(to=[serial.validated_data['email']], title='Simple CRUD Account Info', body='click this activation link: ' + "http://localhost/tugas_ptbig/activation.php?activation_code=" + code)
+			serial.save(activate_code=code, password=make_password(password=request.data['password'], salt=None), active=False)
 			return Response({"result":serial.data,"message":"OK"})
 		return Response({"result":None,"detail":serial.errors}, 400)
 
