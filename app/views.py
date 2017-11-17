@@ -104,7 +104,7 @@ class RegisterView(APIView):
 
 class ActivateView(APIView):
 
-	permission_classes = (TokenPermission,)
+	# permission_classes = (TokenPermission,)
 
 	def get(self, request):
 		code = request.GET.get('activation_code')
