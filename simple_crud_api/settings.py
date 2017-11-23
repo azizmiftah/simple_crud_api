@@ -85,26 +85,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'simple_crud_api.wsgi.application'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = 'info@node8.net'
-# #Must generate specific password for your app in [gmail settings][1]
-# EMAIL_HOST_PASSWORD = 'trqmlckyrvvaqzpr'
-# EMAIL_PORT = 587
-# #This did the trick
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = 'miftahulaziz92@gmail.com'
-# EMAIL_HOST_PASSWORD = 'sangkubutut'
-# # EMAIL_PORT = 25
-# EMAIL_PORT = 587
-# # EMAIL_PORT = 465
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -115,35 +96,17 @@ EMAIL_USE_TLS = True
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'crudapp',
-#         'USER': 'root',
-#         'PASSWORD': 's@rutobi',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     },
-# }
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'crudapp',
-        'USER': 'edwinOnly',
-        'PASSWORD': 'domybest.300811',
+        'USER': 'root',
+        'PASSWORD': 'yourpassword',
         'HOST': 'localhost',
         'PORT': '',
     },
 }
+
 
 
 # Password validation
