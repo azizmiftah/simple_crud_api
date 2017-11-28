@@ -18,6 +18,7 @@ from django.contrib import admin
 from views import *
 
 urlpatterns = [
+    url(r'^checkemail/$', CheckEmailView.as_view()),
     url(r'^login/$', ObtainTokenView.as_view()),
     url(r'^register/$', RegisterView.as_view()),
     url(r'^user/(?P<id>[0-9]+)/$', UserView.as_view()),
