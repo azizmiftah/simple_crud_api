@@ -18,3 +18,6 @@ class ParamObtainToken(serializers.ModelSerializer):
 	class Meta:
 		model = User
 		exclude = ('name', 'activate_code', 'id')
+
+class CheckEmailSerial(serializers.Serializer):
+	email = serializers.CharField(required=True)

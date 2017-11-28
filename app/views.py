@@ -95,6 +95,17 @@ class ObtainTokenView(APIView):
 		token = jwt.encode(payload, settings.SECRET_KEY)
 		return Response({"res":1,"message":"OK","token":token, "user": UserSerial(user).data})
 
+class CheckEmailView(APIView):
+
+	serializer_class = CheckEmailSerial
+
+	def get(self, request):
+		if not 'email' in request.GET:
+			return Response({'result':None,"detail":{'email':["This field is required."]}});
+		if not User.objects.filter(email__iexact=request.GET['email']):
+			return Response({'result':None,"detail":"Email is available."});
+		return Response({'result':None,"detail":"Email has already taken."});
+
 class RegisterView(APIView):
 
 	serializer_class = UserSerial
