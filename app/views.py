@@ -104,7 +104,7 @@ class CheckEmailView(APIView):
 			return Response({'result':None,"detail":{'email':["This field is required."]}});
 		if not User.objects.filter(email__iexact=request.GET['email']):
 			return Response({'result':None,"detail":"Email is available."});
-		return Response({'result':None,"detail":"Email has already taken."});
+		return Response({'result':None,"detail":"Email has already taken."}, 400);
 
 class RegisterView(APIView):
 
