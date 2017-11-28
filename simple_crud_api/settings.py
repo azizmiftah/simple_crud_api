@@ -101,7 +101,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'crudapp',
         'USER': 'root',
-        'PASSWORD': 'yourpassword',
+        'PASSWORD': 's@rutobi',
         'HOST': 'localhost',
         'PORT': '',
     },
